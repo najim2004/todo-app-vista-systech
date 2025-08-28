@@ -2,55 +2,20 @@
 
 import { useState } from "react";
 import { Plus, Search, Calendar, Edit, Pause, X } from "lucide-react";
-
-interface Todo {
-  id: string;
-  title: string;
-  description: string;
-  completed: boolean;
-  createdAt: Date;
-  dueDate: Date;
-}
+import { TaskDetailsModal } from "./components/task-details-modal";
+import { AddTodoModal } from "./components/add-todo-modal";
+import { Button } from "./components/ui/button";
+import { Checkbox } from "@radix-ui/react-checkbox";
+import { Input } from "./components/ui/input";
+import { useTodo } from "./contexts/todo-context";
 
 export default function TodoApp() {
-  // TODO: Uncomment and fix when useTodo implemented
-  // const { selectors, actions } = useTodo();
+  const { selectors, actions } = useTodo();
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isTaskDetailsOpen, setIsTaskDetailsOpen] = useState(false);
-  const [selectedTask, setSelectedTask] = useState<Todo|null>(null);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedTask, setSelectedTask] = useState<null | (typeof selectors.filteredTodos)[number]>(null);
 
-  const sampleTodos = [
-    {
-      id: "1",
-      title: "Title Name",
-      description:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum...",
-      completed: false,
-      createdAt: new Date("2025-08-25"),
-      dueDate: new Date("2025-08-25"),
-    },
-    {
-      id: "2",
-      title: "Title Name",
-      description:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-      completed: true,
-      createdAt: new Date("2025-08-25"),
-      dueDate: new Date("2025-08-25"),
-    },
-    {
-      id: "3",
-      title: "Title Name",
-      description:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum...",
-      completed: false,
-      createdAt: new Date("2025-08-25"),
-      dueDate: new Date("2025-08-25"),
-    },
-  ];
-
-  const handleEditTask = (task: Todo) => {
+  const handleEditTask = (task: typeof selectors.filteredTodos[number]) => {
     setSelectedTask(task);
     setIsTaskDetailsOpen(true);
   };
@@ -65,9 +30,9 @@ export default function TodoApp() {
       <div className="max-w-7xl mx-auto">
         <div className="bg-white rounded-2xl shadow-sm p-6 mb-6">
           <div className="flex justify-between items-center">
-            <div className="text-[#000000] font-medium">All : 5</div>
-            <div className="text-[#000000] font-medium">Active : 3</div>
-            <div className="text-[#000000] font-medium">Completed : 2</div>
+            <div className="text-[#000000] font-medium">All : {selectors.totalTodos}</div>
+            <div className="text-[#000000] font-medium">Active : {selectors.activeTodos}</div>
+            <div className="text-[#000000] font-medium">Completed : {selectors.completedTodos}</div>
           </div>
         </div>
 
@@ -87,13 +52,13 @@ export default function TodoApp() {
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#94a3b8] w-4 h-4" />
               <Input
                 placeholder="Search tasks..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                value={selectors.searchQuery}
+                onChange={e => actions.setSearchQuery(e.target.value)}
                 className="pl-10 pr-10 border-[#e2e8f0] rounded-lg bg-[#f8fafc] focus:bg-white"
               />
-              {searchQuery && (
+              {selectors.searchQuery && (
                 <button
-                  onClick={() => setSearchQuery("")}
+                  onClick={() => actions.setSearchQuery("")}
                   className="absolute right-3 top-1/2 transform -translate-y-1/2 text-[#94a3b8] hover:text-[#000000]"
                 >
                   <X className="w-4 h-4" />
@@ -121,13 +86,17 @@ export default function TodoApp() {
         </div>
 
         <div className="space-y-4">
-          {sampleTodos.map((todo, index) => (
+          {selectors.filteredTodos.length === 0 && (
+            <div className="text-center text-[#999]">No tasks found.</div>
+          )}
+          {selectors.filteredTodos.map((todo, index) => (
             <div key={todo.id} className="bg-white rounded-2xl shadow-sm p-6">
               <div className="flex items-start gap-4">
                 {/* Checkbox */}
                 <div className="mt-1">
                   <Checkbox
                     checked={todo.completed}
+                    onCheckedChange={() => actions.toggleTodo(todo.id)}
                     className={`w-5 h-5 rounded border-2 ${
                       todo.completed
                         ? "bg-[#15803d] border-[#15803d] text-white"
@@ -150,7 +119,9 @@ export default function TodoApp() {
                 <div className="flex items-center gap-4">
                   <div className="flex items-center gap-2 text-[#7f7f7f]">
                     <Calendar className="w-4 h-4" />
-                    <span className="text-sm">Mon, 25 Aug 2025</span>
+                    <span className="text-sm">
+                      {todo.dueDate ? new Date(todo.dueDate).toLocaleDateString() : ""}
+                    </span>
                   </div>
 
                   <div className="flex items-center gap-2">
@@ -160,13 +131,7 @@ export default function TodoApp() {
                     >
                       <Edit className="w-4 h-4 text-[#7f7f7f]" />
                     </button>
-                    <button className="p-2 hover:bg-[#f8fafc] rounded-lg">
-                      <Pause
-                        className={`w-4 h-4 ${
-                          index === 2 ? "text-[#e51619]" : "text-[#7f7f7f]"
-                        }`}
-                      />
-                    </button>
+                    {/* You can add more actions here */}
                   </div>
                 </div>
               </div>

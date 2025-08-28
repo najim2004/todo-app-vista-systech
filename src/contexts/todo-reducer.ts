@@ -1,4 +1,4 @@
-import type { TodoState, TodoAction, FilterType, Todo } from "./todo-context"
+import type { TodoState, TodoAction } from "./todo-context"
 
 export const initialState: TodoState = {
   todos: [],

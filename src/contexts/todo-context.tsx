@@ -65,7 +65,7 @@ export function TodoProvider({ children }: { children: ReactNode }) {
       const savedFilter = localStorage.getItem("todoFilter") as FilterType
 
       if (savedTodos) {
-        const parsedTodos = JSON.parse(savedTodos).map((todo: any) => ({
+        const parsedTodos = JSON.parse(savedTodos).map((todo: Todo) => ({
           ...todo,
           createdAt: new Date(todo.createdAt),
           dueDate: todo.dueDate ? new Date(todo.dueDate) : undefined,

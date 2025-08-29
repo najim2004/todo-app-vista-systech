@@ -1,11 +1,11 @@
-"use client"
+"use client";
 
-import { Moon, Sun } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { useTheme } from "@/contexts/theme-context"
+import { Moon, Sun } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useTheme } from "@/contexts/theme-context";
 
 export function ThemeToggle() {
-  const { theme, toggleTheme } = useTheme()
+  const { theme, toggleTheme } = useTheme();
 
   return (
     <Button
@@ -21,5 +21,5 @@ export function ThemeToggle() {
         <Sun className="w-4 h-4 transition-transform duration-200 hover:scale-110" />
       )}
     </Button>
-  )
+  );
 }

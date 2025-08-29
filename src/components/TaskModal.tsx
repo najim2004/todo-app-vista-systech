@@ -63,6 +63,10 @@ export default function TaskModal({
           dueDate: dueDate || null,
         });
       }
+      // Reset form fields
+      setTitle("");
+      setDescription("");
+      setDueDate("");
 
       onClose();
     } catch (error) {
@@ -74,6 +78,10 @@ export default function TaskModal({
 
   const handleClose = () => {
     if (!isSubmitting) {
+      // Reset form fields when closing
+      setTitle("");
+      setDescription("");
+      setDueDate("");
       onClose();
     }
   };

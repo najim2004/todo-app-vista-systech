@@ -4,9 +4,11 @@ import TaskItem from "./TaskItem";
 import TaskModal from "./TaskModal";
 import type { Todo } from "@/lib/todoContextUtils";
 import { useTodos } from "@/hooks/useTodos";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 
 export default function TaskList() {
-  const { filteredTodos } = useTodos();
+  const { state, filteredTodos, clearCompleted } = useTodos();
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [editingTask, setEditingTask] = useState<Todo | null>(null);
@@ -21,18 +23,34 @@ export default function TaskList() {
     setEditingTask(null);
   };
 
+  const handleClearCompleted = () => {
+    clearCompleted();
+  };
+
   return (
-    <div>
+    <div className="space-y-6">
       {/* Section: Tasks Header */}
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Tasks</h1>
-        <button
-          onClick={() => setIsAddModalOpen(true)}
-          className="flex items-center gap-2 bg-green-600 text-white px-4 py-2.5 rounded-lg hover:bg-green-700 transition-colors font-medium shadow-sm"
-        >
-          <Plus size={18} />
-          <span>Add Task</span>
-        </button>
+      <div className="flex items-center justify-between">
+        <h1 className="text-3xl font-medium text-black">Tasks</h1>
+        <div className="flex items-center gap-3">
+          {state.todos.some((todo) => todo.completed) && (
+            <Button
+              variant="ghost"
+              onClick={handleClearCompleted}
+              className="text-red-600 hover:bg-red-50"
+            >
+              Clear Completed
+            </Button>
+          )}
+          <Button
+            size="lg"
+            className="flex items-center gap-2 bg-[#15803D] hover:bg-[#15803D]/80 text-white !px-[28px] h-[60px]"
+            onClick={() => setIsAddModalOpen(true)}
+          >
+            <Plus size={18} />
+            Add Task
+          </Button>
+        </div>
       </div>
 
       {/* Section: Task List */}
@@ -44,26 +62,24 @@ export default function TaskList() {
         </div>
       ) : (
         /* Section: Empty State */
-        <div
-          className="text-center py-12 bg-white rounded-lg border border-gray-200 shadow-sm"
-        >
+        <Card className="text-center py-12 border-gray-200">
           <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <ClipboardList className="text-gray-400" size={28} />
           </div>
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">
+          <h3 className="text-lg font-semibold text-black mb-2">
             No tasks found
           </h3>
           <p className="text-gray-500 mb-6">
             Get started by adding your first task
           </p>
-          <button
+          <Button
+            className="flex items-center gap-2 bg-[#15803D] hover:bg-[#15803D]/80 text-white mx-auto  !px-[28px] h-[60px]"
             onClick={() => setIsAddModalOpen(true)}
-            className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors font-medium"
           >
-            <Plus size={16} className="mr-2" />
+            <Plus size={16} />
             Add your first task
-          </button>
-        </div>
+          </Button>
+        </Card>
       )}
 
       {/* Section: Modals */}

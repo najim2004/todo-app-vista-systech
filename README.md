@@ -1,69 +1,66 @@
-# React + TypeScript + Vite
+# Todo App - Streamline Your Tasks
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Currently, two official plugins are available:
+## Overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Todo App is a modern, intuitive task management application designed to help you stay organized and productive. Built with a focus on simplicity and efficiency, it provides a seamless experience for managing your daily tasks.
 
-## Expanding the ESLint configuration
+## Features
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+*   **Task Management:** Easily add, edit, and delete tasks.
+*   **Task Completion:** Mark tasks as complete to track your progress.
+*   **Due Dates:** Set due dates for tasks to stay on schedule.
+*   **Filtering:** Filter tasks by completion status.
+*   **Responsive Design:** Use the app on any device, from desktop to mobile.
+*   **Animations:** Enjoy a smooth and engaging user experience with Framer Motion animations.
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Technologies Used
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+*   **React:** A JavaScript library for building user interfaces.
+*   **TypeScript:** A typed superset of JavaScript that compiles to plain JavaScript.
+*   **Vite:** A fast, opinionated web dev build tool that serves your code during development and bundles it for production.
+*   **Radix UI:** A set of unstyled, accessible UI primitives.
+*   **Shadcn UI:** A collection of reusable components built using Radix UI and Tailwind CSS.
+*   **Tailwind CSS:** A utility-first CSS framework for rapidly styling custom designs.
+*   **Framer Motion:** A production-ready motion library for React.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Setup
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+1.  Clone the repository:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+    ```bash
+    git clone https://github.com/najim2004/todo-app-vista-systech.git
+    ```
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+2.  Navigate to the project directory:
+
+    ```bash
+    cd todo-app-vista-systech
+    ```
+
+3.  Install dependencies:
+
+    ```bash
+    npm install
+    ```
+
+## Run
+
+1.  Start the development server:
+
+    ```bash
+    npm run dev
+    ```
+
+    This will start the app on `http://localhost:5173/`.
+
+## Live Demo
+
+[https://todo-app-vista-systech.vercel.app](https://todo-app-vista-systech.vercel.app)
+
+## Contact
+
+[najim.developer@gmail.com](mailto:najim.developer@gmail.com)
+
+[najim-dev.vercel.app](https://najim-dev.vercel.app/)

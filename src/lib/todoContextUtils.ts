@@ -11,7 +11,7 @@ export interface Todo {
 export interface InsertTodo {
   title: string;
   description?: string | null;
-  dueDate?: string | null;
+  dueDate: string | null;
 }
 
 export type FilterType = "all" | "active" | "completed";

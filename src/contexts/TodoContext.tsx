@@ -78,7 +78,7 @@ export function TodoProvider({ children }: { children: React.ReactNode }) {
       id: crypto.randomUUID(),
       title: todoData.title,
       description: todoData.description || null,
-      dueDate: todoData.dueDate || null,
+      dueDate: todoData.dueDate,
       completed: false,
       createdAt: new Date(),
       updatedAt: new Date(),

@@ -137,6 +137,7 @@ export default function TaskModal({
             <Input
               id={dateId}
               type="date"
+              required
               value={dueDate}
               onChange={(e) => setDueDate(e.target.value)}
               disabled={isSubmitting}
@@ -152,12 +153,13 @@ export default function TaskModal({
               disabled={isSubmitting}
               className="flex-1"
             >
-              Cancel
+              Close
             </Button>
             <Button
               type="submit"
-              disabled={isSubmitting || !title.trim()}
-              className="flex-1 btn-hover"
+              disabled={isSubmitting || !title.trim() || !dueDate}
+              variant="default"
+              className="flex-1 btn-hover bg-[#15803D] hover:bg-[#15803D]/80 text-white"
             >
               {isSubmitting
                 ? isEdit

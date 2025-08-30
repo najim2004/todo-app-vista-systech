@@ -1,3 +1,5 @@
+import LogoImg from "../assets/logo.png";
+
 export default function Logo({
   className = "",
   size = 40,
@@ -10,11 +12,7 @@ export default function Logo({
       className={`relative ${className}`}
       style={{ width: size, height: size }}
     >
-      <img
-        src="./src/assets/logo.png"
-        alt="Vista SysTech"
-        className="size-fit"
-      />
+      <img src={LogoImg} alt="Vista SysTech" className="size-fit" />
     </div>
   );
 }

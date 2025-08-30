@@ -45,7 +45,6 @@ export default function TaskModal({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     if (!title.trim()) return;
 
     setIsSubmitting(true);
@@ -63,11 +62,9 @@ export default function TaskModal({
           dueDate: dueDate || null,
         });
       }
-      // Reset form fields
       setTitle("");
       setDescription("");
       setDueDate("");
-
       onClose();
     } catch (error) {
       console.error("Failed to add/update todo:", error);
@@ -78,7 +75,6 @@ export default function TaskModal({
 
   const handleClose = () => {
     if (!isSubmitting) {
-      // Reset form fields when closing
       setTitle("");
       setDescription("");
       setDueDate("");
@@ -86,11 +82,8 @@ export default function TaskModal({
     }
   };
 
-  // Handle Escape key
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Escape") {
-      handleClose();
-    }
+    if (e.key === "Escape") handleClose();
   };
 
   const titleId = isEdit ? "editTaskTitle" : "taskTitle";
@@ -99,14 +92,21 @@ export default function TaskModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-md fade-in" onKeyDown={handleKeyDown}>
+      <DialogContent
+        className="sm:max-w-md fade-in bg-card border-border"
+        onKeyDown={handleKeyDown}
+      >
         <DialogHeader>
-          <DialogTitle>{isEdit ? "Edit Task" : "Add New Task"}</DialogTitle>
+          <DialogTitle className="text-card-foreground">
+            {isEdit ? "Edit Task" : "Add New Task"}
+          </DialogTitle>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor={titleId}>Task Title *</Label>
+            <Label htmlFor={titleId} className="text-card-foreground">
+              Task Title *
+            </Label>
             <Input
               id={titleId}
               type="text"
@@ -115,12 +115,14 @@ export default function TaskModal({
               onChange={(e) => setTitle(e.target.value)}
               required
               disabled={isSubmitting}
-              className="focus:ring-green-500 focus:border-green-500"
+              className="bg-input border-border text-foreground focus:ring-accent focus:border-accent placeholder:text-muted-foreground"
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor={descriptionId}>Description</Label>
+            <Label htmlFor={descriptionId} className="text-card-foreground">
+              Description
+            </Label>
             <Textarea
               id={descriptionId}
               placeholder="Enter task description..."
@@ -128,12 +130,14 @@ export default function TaskModal({
               onChange={(e) => setDescription(e.target.value)}
               disabled={isSubmitting}
               rows={3}
-              className="resize-none focus:ring-green-500 focus:border-green-500"
+              className="resize-none bg-input border-border text-foreground focus:ring-accent focus:border-accent placeholder:text-muted-foreground"
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor={dateId}>Due Date</Label>
+            <Label htmlFor={dateId} className="text-card-foreground">
+              Due Date
+            </Label>
             <Input
               id={dateId}
               type="date"
@@ -141,7 +145,7 @@ export default function TaskModal({
               value={dueDate}
               onChange={(e) => setDueDate(e.target.value)}
               disabled={isSubmitting}
-              className="focus:ring-green-500 focus:border-green-500"
+              className="bg-input border-border text-foreground focus:ring-accent focus:border-accent"
             />
           </div>
 
@@ -151,15 +155,14 @@ export default function TaskModal({
               variant="outline"
               onClick={handleClose}
               disabled={isSubmitting}
-              className="flex-1"
+              className="flex-1 border-border text-foreground hover:bg-muted hover:text-foreground"
             >
               Close
             </Button>
             <Button
               type="submit"
               disabled={isSubmitting || !title.trim() || !dueDate}
-              variant="default"
-              className="flex-1 btn-hover bg-[#15803D] hover:bg-[#15803D]/80 text-white"
+              className="flex-1 btn-hover bg-accent hover:bg-accent/90 text-accent-foreground"
             >
               {isSubmitting
                 ? isEdit

@@ -6,6 +6,7 @@ import type { Todo } from "@/lib/todoContextUtils";
 import { useTodos } from "@/hooks/useTodos";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function TaskList() {
   const { state, filteredTodos, clearCompleted } = useTodos();
@@ -28,26 +29,28 @@ export default function TaskList() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       {/* Section: Tasks Header */}
-      <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-medium text-black">Tasks</h1>
-        <div className="flex items-center gap-3">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <h1 className="text-2xl sm:text-3xl font-medium text-foreground">
+          Tasks
+        </h1>
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
           {state.todos.some((todo) => todo.completed) && (
             <Button
               variant="ghost"
               onClick={handleClearCompleted}
-              className="text-red-600 hover:bg-red-50"
+              className="text-destructive hover:bg-destructive/10 hover:text-destructive h-10 sm:h-auto"
             >
               Clear Completed
             </Button>
           )}
           <Button
             size="lg"
-            className="flex items-center gap-2 bg-[#15803D] hover:bg-[#15803D]/80 text-white !px-[28px] h-[60px]"
+            className="flex items-center justify-center gap-2 sm:gap-7 bg-accent hover:bg-accent/90 text-accent-foreground px-6 sm:px-[28px] h-12 sm:h-[60px] w-full sm:w-auto"
             onClick={() => setIsAddModalOpen(true)}
           >
-            <Plus size={18} />
+            <Plus className="size-4 sm:size-[18px]" />
             Add Task
           </Button>
         </div>
@@ -55,28 +58,37 @@ export default function TaskList() {
 
       {/* Section: Task List */}
       {filteredTodos.length > 0 ? (
-        <div className="space-y-3">
-          {filteredTodos.map((task) => (
-            <TaskItem key={task.id} task={task} onEdit={handleEditTask} />
-          ))}
-        </div>
+        <AnimatePresence>
+          <motion.div
+            layout
+            className="space-y-3"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            {filteredTodos.map((task) => (
+              <TaskItem key={task.id} task={task} onEdit={handleEditTask} />
+            ))}
+          </motion.div>
+        </AnimatePresence>
       ) : (
         /* Section: Empty State */
-        <Card className="text-center py-12 border-gray-200">
-          <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <ClipboardList className="text-gray-400" size={28} />
+        <Card className="text-center py-8 sm:py-12 border-border bg-card mx-2 sm:mx-0">
+          <div className="w-12 h-12 sm:w-16 sm:h-16 bg-muted rounded-full flex items-center justify-center mx-auto mb-4">
+            <ClipboardList className="text-muted-foreground" />
           </div>
-          <h3 className="text-lg font-semibold text-black mb-2">
+          <h3 className="text-base sm:text-lg font-semibold text-card-foreground mb-2">
             No tasks found
           </h3>
-          <p className="text-gray-500 mb-6">
+          <p className="text-muted-foreground mb-6 px-4 sm:px-0">
             Get started by adding your first task
           </p>
           <Button
-            className="flex items-center gap-2 bg-[#15803D] hover:bg-[#15803D]/80 text-white mx-auto  !px-[28px] h-[60px]"
+            className="flex items-center gap-2 bg-accent hover:bg-accent/90 text-accent-foreground mx-auto px-6 sm:px-[28px] h-12 sm:h-[60px]"
             onClick={() => setIsAddModalOpen(true)}
           >
-            <Plus size={16} />
+            <Plus className="size-4 sm:size-[18px]" />
             Add your first task
           </Button>
         </Card>
